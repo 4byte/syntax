@@ -1,0 +1,60 @@
+docker search <containerName>
+docker run -d --name <name> <image name>  - run docker in BG
+docker ps
+docker inspect <friendly-name|container-id>
+docker logs <friendly-name|container-id>
+docker run -d -p <host-port>:<container-port> <image name> (ip acceptable in this command:  -p 127.0.0.1:6379:6379)
+(dynamyc port only with -p <port>)
+docker port <container-name>  [port specified]
+docker run -v <host-dir>:<container-dir> (directory on host added)
+(Docker allows you to use $PWD as a placeholder for the current directory.
+Any data which needs to be saved on the Docker Host, and not inside containers, should be stored in /opt/docker/data/redis.)
+docker run <container-id> <command-to-run>
+docker run -it <container-id> [command-or-process]
+
+DOCKER-FILE
+	FROM <container-id>:[<version|user>]
+	[COPY <host-dir> <path-to-mount-in-container-dir>]
+	[RUN <command>] - run from shell (runs when image creates,not runs!!!!!)
+	COPY <src> <dest>
+	[EXPOSE <port>]
+	[CMD] runs when container starts (can supply an array ["cmd", "-a", "arga value", "-b", "argb-value"])
+	[WORKDIR] -specifying working dir
+	[ONBUILD <COPY|RUN|..>]
+	[LABEL] <key>=<value> \
+			<key>=<value>
+
+
+docker build <build-directory>
+docker build -t <image-frendly-name>:[<tag>] <build-directory> (The -t parameter allows you to specify a friendly name for the image and a tag, commonly used as a version number) (-f to dockerFile)
+docker images
+docker attach <friendly-name|container-id>  login into running image
+docker rmi (to remove image)
+##Docker data containers
+	docker create [-v ..] [--name ..] <image name>
+	docker cp <file> <container-id|name>:[<path-to-store>]
+	docker run --volumes-from <container> <image> (run selected docker iamge with volume from data container)
+	//export import
+	docker export <container-id|name> > <archive-name.tar> 
+	docker import <archive-name.tar>
+##Docker Links
+	docker run --link <container-name|id>:<alias> .. (create link) 
+##Docker networks
+	docker network create <network-name> (create network)
+	docker run --net=<network-name> container-name
+	docker network connect <network-name> <container-name>
+	docker network connect --alias <alias-of-container> <network-name> <container-name>
+	docker network ls
+	docker network inspect <network-name> 
+	docker network disconnect <network-name> <container-name>
+docker exec -i <container-name> (execute command from container)
+docker run -d --name <container-alias> --log-driver=syslog <container-name>
+docker run -d --name <cn> --restart=on-failure:3 (3 times restart)
+							--restart=always
+##Labels & Metadata
+	docker run -l <label-key>=<label-value> -d <container-name>
+	docker run --label-file=<labels-file-properties-path>
+	docker inspect -f "{{json .Config.Labels }}" <container-name>
+	docker inspect -f "{{json .ContainerConfig.Labels }}" <container-name>
+	docker ps --filter "label=<key>=<value>"
+	docker images --filter "label=<key>=<value>"
