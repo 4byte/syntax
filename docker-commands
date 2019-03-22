@@ -58,3 +58,16 @@ docker run -d --name <cn> --restart=on-failure:3 (3 times restart)
 	docker inspect -f "{{json .ContainerConfig.Labels }}" <container-name>
 	docker ps --filter "label=<key>=<value>"
 	docker images --filter "label=<key>=<value>"
+##Docker compose  (docker-compose.yml)
+	docker-compose up -d
+	docker-compose up <name>
+	docker-compose ps
+	docker-compose logs
+	docker-compose  (for all commands)
+	docker-compose scale <name>=<amount>
+	docker-compose stop
+	docker-compose rm
+
+##Dcoker stats
+	docker stats <container-name>
+	docker ps -q | xargs docker stats  (docker stats for all containers)
