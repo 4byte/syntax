@@ -47,6 +47,7 @@ docker rmi (to remove image)
 	docker network ls
 	docker network inspect <network-name> 
 	docker network disconnect <network-name> <container-name>
+	docker network create -d overlay <network-name>
 docker exec -i <container-name> (execute command from container)
 docker run -d --name <container-alias> --log-driver=syslog <container-name>
 docker run -d --name <cn> --restart=on-failure:3 (3 times restart)
@@ -68,6 +69,22 @@ docker run -d --name <cn> --restart=on-failure:3 (3 times restart)
 	docker-compose stop
 	docker-compose rm
 
-##Dcoker stats
+##Docker stats
 	docker stats <container-name>
 	docker ps -q | xargs docker stats  (docker stats for all containers)
+
+##Docker swarm mode
+	docker swarm --help  (real helpfull)
+	docker swarm init (create a new swarm and become a manager node, in stdout you now have assembled command how to join to this swarm as a worker node. Result token need to be saved for further joining)
+	token=$(docker -H 172.17.0.6:2345 swarm join-token -q worker) && echo $token   
+			- how to recieve token from swarm manager node on.6:2345 (default swarm port to abtain and join)
+	docker swarm join 172.17.0.6:2377 --token $token   
+			- how to join swarm
+	docker node ls  (swarm manager command to list nodes)
+	docker network create -d overlay <network-name>
+##Docker service (Docker swarm mode)
+	docker service create --name <service-name> --network <network-name> --replicas <number of replicas> -p 80:80 <container-name>   (replicas deployed evenly for cluster)
+	docker service ps <service-name>
+	docker service inspect --pretty <service-name>
+	docker node ps self
+	docker service scale <service-name>=<containers-number>
