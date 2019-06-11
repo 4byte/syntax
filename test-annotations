@@ -1,0 +1,6 @@
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@AutoConfigureMockMvc   // @Autowired MockMvc mockMvc;
+@WithUserDetails("username")
+@TestPropertySource("/someproperty-file-in-test-resources-dir.properties")
+@MockBean
