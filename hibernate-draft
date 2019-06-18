@@ -1,0 +1,17 @@
+@Fetch(FetchMode.SUBSELECT)
+@BatchSize(size=5)
+@NamedEntityGraphs({
+	@NamedEntityGraph(name="Client[accounts]", attributeNodes=@NamedAttributeNode("accounts"))
+})
+@Immutable    // Hibernate annotation on dictionary tables
+@Cachable
+@Cache
+ResultTransformer and Transformers | DinamicEntity returns map
+@SqlResultSetMapping
+@DynamicInsert(true)
+@DynamicUpdate(true)  // careful with dinamic statements
+@IdGenerator -- Identity
+Generate Id in code - 
+	41 bit timestamp
+	10 bit configured machine id
+	12 bit sequence number
