@@ -4,3 +4,8 @@ public void init()
 @Import (Conf.class)
 EnvironmentPostProcessor extend to operate environment before context start to loading
 @Profile()
+@ImportResource()
+@Conditional // create bean condition
+@ConditionalOn ... Class | MissingBean (annotation = SomeAnnotation.class)
+@ConditionalOnProperty
+@ConfigurationProperty
